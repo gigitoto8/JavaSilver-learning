@@ -1,7 +1,7 @@
 
 ファイル内容
-・実装課題（Implementation issues）：（フォルダ名）_ii.java
-・Java Silver 問題（Java Silver issue）：（フォルダ名）_si.java
+・実装課題（Implementation issues）：ii_（任意の名前）.java
+・Java Silver 問題（Java Silver issue）：si_（任意の名前）.java
 ・所感（memo）：（フォルダ名）_mm.txt
 
 
