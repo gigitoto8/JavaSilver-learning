@@ -1,6 +1,6 @@
 
 ファイル内容
-・実装課題（Implementation issues）：ii_（任意の名前）.java
+・実装課題（Implementation issues）：クラス名.java
 ・Java Silver 問題（Java Silver issue）：si_（任意の名前）.java
 ・所感（memo）：（フォルダ名）_mm.txt
 
