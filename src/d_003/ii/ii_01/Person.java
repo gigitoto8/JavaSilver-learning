@@ -12,6 +12,11 @@ public class Person {
     void introduce(){
         System.out.println
             ("Watashi ha " + name + " desu. " + age + " sai desu.");
+        if(this.age < 20){
+            System.out.println("未成年です");
+        }else{
+            System.out.println("成人です");
+        }
     }
 
     int getAge(){

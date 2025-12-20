@@ -23,11 +23,14 @@ public class Main{
     
         for(Person i : p003){
             i.introduce();
+
+            /* Personクラスで年齢判別することも可
             if(i.getAge() < 20){
                 System.out.println("未成年です");
             }else {
                 System.out.println("成人です");
             }
+            */
         }
     }
 }
