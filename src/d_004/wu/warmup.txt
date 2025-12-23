@@ -1,0 +1,83 @@
+Day4 全体構成（目安：1.5〜2時間）
+① ウォームアップ（10分）
+
+見ずに答える（超重要）
+
+Parent p = new Child();
+
+
+・p の型は？　・・・　Parent型　〇
+
+・実体（オブジェクト）は？　・・・　pである　×　→　Child のオブジェクト（インスタンス）
+
+    p はただの 変数（参照）
+    new Child() によって作られているのは Child オブジェクト
+
+    Parent p  // ラベル
+        ↓
+    new Child()  // 実体
+
+・呼ばれるメソッドは Parent？ Child？
+        ・・・　ParentクラスとChildクラスで定義されているもの　×
+        　　　　→　Child クラスでオーバーライドされたメソッド
+
+
+Day4の核心
+
+ルール（超重要）
+インスタンスメソッドは「実体（newされたクラス）」で決まる
+
+つまり：
+Parent p = new Child();
+p.method();
+
+変数の型：Parent（制限として働く）
+実体：Child（動作を決める）
+
+
+具体例で確定させる
+class Parent {
+    void hello(){
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    void hello(){
+        System.out.println("Child");
+    }
+}
+
+Parent p = new Child();
+p.hello();
+
+出力
+Child
+
+
+理由：
+
+hello() は オーバーライド
+
+実体は Child
+
+もう一段大事な補足（Silverで狙われる）
+呼べるかどうか
+
+👉 参照型（Parent）で決まる
+
+class Child extends Parent {
+    void childOnly(){}
+}
+
+Parent p = new Child();
+p.childOnly(); // ❌ コンパイルエラー
+
+
+実体は Child でも
+参照型 Parent に存在しないメソッドは呼べない
+
+正しい答えを1行で言うと
+・p の型は Parent
+・実体は Child のオブジェクト
+・呼ばれるのは Child でオーバーライドされたメソッド
