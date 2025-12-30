@@ -1,0 +1,113 @@
+・フィールドは自動初期化される（int → 0、参照 → null）
+・static はクラスに1つだけ存在し、全インスタンスで共有される
+・== は参照比較、equals は中身比較（Stringは要注意）
+
+〇String a = "java"; String b = "java"; System.out.println(a == b); // true 
+についてもう少し踏み込んだ説明
+
+"java" は Stringプール に1つだけ作られる
+a と b は 同じオブジェクトを参照
+そのため == でも true
+
+Stringプールとは何か
+Javaは String を特別扱いする
+String a = "java";
+
+
+このとき Java は：
+
+Stringプール（文字列専用の領域）を見る
+
+"java" が すでに存在するか 確認
+
+あれば 新しく作らない
+
+その参照を a に代入
+
+2行目も同じ
+String b = "java";
+
+
+Stringプールに "java" は すでにある
+
+同じオブジェクトの参照を b に代入
+
+イメージ図（重要）
+Stringプール
+ ┌───────────┐
+ │ "java"    │  ← オブジェクトは1つ
+ └───────────┘
+     ▲     ▲
+     │     │
+     a     b
+
+
+👉 参照が同じ
+👉 a == b → true
+
+new String() を使うとどうなるか
+String a = new String("java");
+String b = new String("java");
+
+System.out.println(a == b); // false
+
+なぜ？
+
+new は 必ず新しいオブジェクトを作る
+
+Stringプールは関係ない
+
+Heap
+ ┌───────────┐   ┌───────────┐
+ │ "java"    │   │ "java"    │
+ └───────────┘   └───────────┘
+     ▲               ▲
+     a               b
+
+
+👉 参照が違う → false
+
+さらに一段深い罠（Silver頻出）
+String a = "ja" + "va";
+String b = "java";
+
+System.out.println(a == b); // true
+
+なぜ true？
+
+"ja" + "va" は コンパイル時に結合
+
+結果は "java" リテラル
+
+Stringプールに格納される
+
+でもこれは？
+String x = "ja";
+String a = x + "va";
+String b = "java";
+
+System.out.println(a == b); // false
+
+なぜ false？
+
+x は変数 → 実行時結合
+
+新しい String オブジェクトが作られる
+
+Stringプールは使われない
+
+equals が常に安全な理由
+a.equals(b); // true
+
+
+参照ではなく 中身（文字列）を比較
+
+Stringクラスでオーバーライド済み
+
+👉 文字列比較は equals を使う
+
+JavaSilver用・最強まとめ（暗記用）
+・文字列リテラルは Stringプールに1つだけ作られる
+・同じリテラルは同じ参照になる（== が true）
+・new String() は必ず別オブジェクト
+・文字列比較は equals を使う
