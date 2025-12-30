@@ -8,10 +8,12 @@ public class Main{
 }
 
 /*
-出力：
-Student: Taro, score: 80
+Q：出力は？
+A:Student: Taro, score: 80
 理由：
-Person型の
-Personで定義されたメソッドintroduceを呼び出すが、
-実際に呼び出されるのはStudentでオーバーライドされているメソッド
+Person型のメソッドintroduceを呼び出すが、
+そのメソッドはStudentでオーバーライドされている
+↓修正
+参照型はPersonだが、実体はStudentなので
+オーバーライドされたStudentのintroduceが呼ばれる
 */

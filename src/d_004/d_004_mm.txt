@@ -1,0 +1,119 @@
+・親型変数に子オブジェクトを代入できる（多態性）
+・オーバーライドされたインスタンスメソッドは実体で決まる
+・static メソッドはオーバーライドされず、参照型で決まる
+
+〇GPTから追加説明
+① コンストラクタと継承（超重要）
+基本ルール
+子クラスのコンストラクタは、必ず最初に親のコンストラクタを呼ぶ
+
+例
+class Parent {
+    Parent(){
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    Child(){
+        System.out.println("Child");
+    }
+}
+
+new Child();で
+
+出力
+Parent
+Child
+
+なぜ親が先？
+親クラスの状態が完成してから子クラスを初期化するため
+
+👉 Silverでは「順序」を聞かれる
+
+② super() と this()
+〇super()
+
+親クラスのコンストラクタ呼び出し
+
+Child(){
+    super();
+}
+※ 書かなくても 自動挿入される（引数なしの場合）
+
+〇this()
+
+同じクラスの別コンストラクタ呼び出し
+Child(){
+    this(10);
+}
+Child(int x){
+}
+
+Silver頻出ルール（暗記）
+・this() と super() は同時に書けない
+・必ずコンストラクタの1行目
+
+③ 親に引数なしコンストラクタが無い場合
+class Parent {
+    Parent(int x){}
+}
+
+×
+class Child extends Parent {
+    Child(){
+        // super(); ← 呼べない
+    }
+}
+↓
+結果・・・❌ コンパイルエラー
+
+正解
+Child(){
+    super(10);
+}
+
+④ オーバーライドできないもの（Silver暗記）
+〇 private
+class A {
+    private void test(){}
+}
+
+class B extends A {
+    void test(){} // オーバーライドではなく別メソッドになる
+}
+
+〇 final
+final void test(){}
+👉 オーバーライド不可（コンパイルエラー）
+
+〇 static
+オーバーライドされない（隠蔽）
+
+〇 アクセス修飾子の制限（罠）
+ルール
+オーバーライド時にアクセス範囲は狭くできない
+
+class A {
+    protected void test(){}
+}
+
+class B extends A {
+    void test(){} // ❌ default は狭い
+}
+
+〇 例外とオーバーライド（Silver頻出）
+ルール
+オーバーライドで throws は
+・同じ
+・またはサブクラス
+・または省略
+
+class A {
+    void test() throws IOException {}
+}
+
+class B extends A {
+    void test() throws FileNotFoundException {}
+}
+
