@@ -1,0 +1,47 @@
+①ウォームアップ
+
+try
+catch
+finally
+
+Q.finally は いつ実行されるか？
+A.try句の最後の方
+↓正確には
+try/catchの処理が終わった直後に必ず実行される
+
+Q.return があっても実行されるか？
+A.returnが入っていても、最後にはfilallyが実行される　〇
+↓なぜ
+Javaはreturnの直前にfilallyを必ず挟む
+
+以下の場合
+static int sample() {
+    try {
+        return 1;
+    } finally {
+        System.out.println("finally");
+    }
+}
+戻り値は　1である
+ただし、以下の場合
+static int test() {
+    try {
+        return 1;
+    } finally {
+        return 2;
+    }
+}
+戻り値は2
+
+② 例外の全体像（整理）
+例外の分類（Silver暗記）
+Throwable
+ ├─ Error（基本無視）
+ └─ Exception
+     ├─ RuntimeException（非チェック例外）
+     └─ その他（チェック例外）
+
+覚え方
+種類	代表例	特徴
+チェック例外	IOException, SQLException	処理必須
+非チェック例外	NullPointerException	処理不要
