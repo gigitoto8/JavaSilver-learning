@@ -1,0 +1,142 @@
+
+〇＊行まとめ
+
+finally
+・finally は try / catch の処理が終わったあとに実行される
+・try や catch に return があっても finally は実行される
+・finally に return があると、それが最優先される
+
+throws
+・メソッドに書く
+・呼び出し元へ責任を渡す宣言
+・オーバーライド時は「狭くする」だけOK（オーバーライドで throws は広げられない）
+・catch は子 → 親の順でなければならない
+
+try-with-resources
+・close を自動化
+・finally 不要
+・AutoCloseable 限定
+
+〇throws は「メソッド宣言」に対して書く
+
+これは
+「このメソッドを呼び出した側に、例外処理の責任を押し付けます」
+という宣言。
+
+try / catch との役割分担
+
+書く場所	        意味
+try / catch	    このメソッド内で例外を処理する
+throws	        呼び出し元に処理を任せる
+
+↓掘り下げた説明
+
+1. Javaの大原則
+
+チェック例外は
+「catch する」か「throws で宣言する」か、どちらか必須
+
+// どちらか必要
+try { ... } catch (IOException e) { ... }
+// または
+void method() throws IOException { ... }
+
+2. throws を付ける「典型パターン」
+① このメソッドでは対処できないとき（最重要）
+void readFile() throws IOException {
+    FileReader fr = new FileReader("test.txt");
+}
+
+ファイルが存在するか
+再試行するか
+ユーザーに通知するか
+
+② 上位レイヤーでまとめて処理したいとき
+void service() throws IOException {
+    readFile();
+}
+void controller() {
+    try {
+        service();
+    } catch (IOException e) {
+        // ログ出力・画面表示など
+    }
+}
+👉
+下位は throws / 上位で catch
+これは実務でも王道。
+
+③ 単に処理を中断したいとき（Silver頻出）
+void test() throws Exception {
+    if (true) {
+        throw new Exception();
+    }
+}
+
+catch を書く意味がない
+処理継続もできない
+👉
+その場で止めて上へ投げる
+
+3. throws を「付けない」ほうが良い場面
+① この場で解決できるとき
+try {
+    int n = Integer.parseInt("abc");
+} catch (NumberFormatException e) {
+    System.out.println("数値を入力してください");
+}
+ユーザー入力エラー
+リカバリ可能
+👉
+throws 不要（RuntimeException）
+
+② RuntimeException のみの場合
+void test() {
+    int[] a = new int[1];
+    System.out.println(a[5]); // ArrayIndexOutOfBoundsException
+}
+throws は不要
+書いても意味がない
+
+4. Silverで超重要な誤解ポイント
+❌ throws = 例外を処理している
+
+→ 完全に誤り
+
+✅ throws = 「処理しない」宣言
+void a() throws IOException {
+    // 処理しない
+}
+
+5. 継承と throws（あなたの疑問と直結）
+class A {
+    void test() throws IOException {}
+}
+
+class B extends A {
+    // OK
+    void test() throws FileNotFoundException {}
+    // OK
+    void test() {}
+    // ❌ NG（範囲が広がる）
+    void test() throws Exception {}
+}
+
+原則
+オーバーライド時、throws は同じか狭くする
+理由：
+親型で呼ぶ側は「IOExceptionまで」しか想定していない
+
+6. 判断フロー（これで迷わない）
+① チェック例外？
+   ↓ yes
+② このメソッドで解決できる？
+   ↓ no
+③ 呼び出し元に判断させたい？
+   ↓ yes
+→ throws を付ける
+
+まとめ（あなた用）
+throws は「このメソッドでは例外を処理しない」宣言
+判断・復旧が上位の責務なら throws を使う
+オーバーライド時は throws を広げてはいけな
