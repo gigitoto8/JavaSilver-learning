@@ -1,0 +1,9 @@
+まとめ
+・equals は オーバーライドされているか必ず確認
+・static は 参照型で決まる
+・finally の return が 最優先
+
+↓Silver問題⑤の参考資料
+参考：【絵とコードで理解する】 Java の 参照の値渡し
+https://tech.nri-net.com/entry/pass_by_reference_value_in_java
+
