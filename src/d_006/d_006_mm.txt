@@ -1,0 +1,43 @@
+まとめ
+
+よく出る「勘違いまとめ」
+勘違い	実際
+String は変更できる	❌ 不変
+for-each で書き換え	❌
+List は値を持つ	❌ 参照
+equals は万能	❌ クラス次第
+配列は primitive	❌ オブジェクト
+
+クラス名を見たらこう考える
+クラス	性質
+String	不変
+LocalDate / LocalTime	不変
+Integer / Boolean	不変
+StringBuilder	可変
+ArrayList	可変
+
+
+
+
+標準APIは「不変かどうか」を最初に疑う
+== が出たら「参照比較」を疑う
+コレクションは「中身ではなく参照」を持つ
+String / 日付 / Wrapper / LocalDate → 不変
+StringBuilder / ArrayList → 可変
+不変は「代入しないと変わらない」
+変わるかどうかは「クラスの性質」で決まる
+値クラスは不変、作業用クラスは可変
+StringBuilder は「途中経過用」、String は「完成品」
+List・配列は 参照を持つ（値は持たない）
+for-eachの代入変数は 代入しても元は変わらない
+メソッド引数は「参照のコピー」
+
+↓超要約
+
+まず「不変か可変か」を疑う
+== は 参照比較
+コレクション・配列は参照を持つ
+値クラスは不変（String / 日付 / Wrapper）
+作業用クラスは可変（StringBuilder / ArrayList）
+不変は代入しないと変わらない
+for-each や引数は 参照のコピー
