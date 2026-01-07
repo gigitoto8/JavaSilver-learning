@@ -1,0 +1,7 @@
+まとめ
+
+・for-each 変数は 参照のコピー
+・変わるかどうかは オブジェクトが可変か
+・Set / Map は equals / hashCode が命
+・String は不変、StringBuilder は可変
+・ジェネリクスは 実行前の安全装置

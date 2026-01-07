@@ -1,0 +1,97 @@
+① コレクション三兄弟（Silver超頻出）
+List
+
+順序あり、重複OK
+
+List<String> list = new ArrayList<>();
+list.add("A");
+list.add("A"); // OK
+
+
+Set
+
+順序なし、重複NG
+
+Set<String> set = new HashSet<>();
+set.add("A");
+set.add("A"); // 無視される
+
+👉 重複判定に使われるのは
+equals ＋ hashCode
+
+
+Map
+
+キーと値のペア、キーは重複NG
+
+Map<String, String> map = new HashMap<>();
+map.put("A", "Apple");
+map.put("A", "Ant"); // 上書き
+
+
+② ジェネリクス〈T〉の正体
+List<String> list = new ArrayList<>();
+
+これは、「この List には String しか入れない」
+という コンパイル時の約束
+
+ジェネリクスの効果
+キャスト不要、型安全、実行時エラーを防ぐ
+
+❌ ジェネリクスなし（Silverで嫌われる）
+
+List list = new ArrayList();
+list.add("A");
+String s = (String) list.get(0); // 危険
+
+
+③ equals / hashCode（Set・Mapの核心）
+
+役割分担
+equals → 中身が同じか
+hashCode → 同じ箱に入れるか
+
+重要ルール（Silver暗記）
+equals が true なら hashCode も同じでなければならない
+
+④ 並び替えの2系統
+Comparable（自然順序）
+class A implements Comparable<A> {
+    public int compareTo(A o) {
+        return 0;
+    }
+}
+
+
+クラス自身に「並び方」を持たせる
+
+1種類だけ
+
+Comparator（外部ルール）
+Comparator<A> c = (a, b) -> 0;
+
+
+外から並び方を渡す
+
+複数OK
+
+compareTo / compare の戻り値
+
+負 → 小さい
+
+0 → 同じ
+
+正 → 大きい
+
+👉 true / false ではない！
+
+⑤ JavaSilverあるある勘違い
+
+❌ Set は add すると例外が出る
+⭕ 出ない。無視される
+
+❌ equals があれば hashCode は不要
+⭕ 両方必要
+
+❌ compareTo は boolean
+⭕ int
