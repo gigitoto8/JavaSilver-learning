@@ -1,0 +1,14 @@
+ウォームアップ（概念）
+List<String> list = new ArrayList<>();
+
+Q1. list の「型」は？
+Q2. 実体は？
+Q3. なぜ ArrayList ではなく List 型で受ける？
+
+※ まだ答えなくていい。
+→ 今日の最後に 必ず言語化できる ようになる。
+
+
+
+
+
