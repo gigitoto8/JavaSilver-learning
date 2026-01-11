@@ -1,0 +1,6 @@
+メモ
+
+abstract クラスは new できない
+abstract メソッドは「署名一致」で override 必須
+未実装なら、クラスも abstract
+
