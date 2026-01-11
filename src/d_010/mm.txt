@@ -1,0 +1,241 @@
+
+
+
+
+default
+実装を持つ、クラスでオーバーライド可能、衝突したら 実装クラスで必ず解決
+
+static
+継承されない、インスタンスから呼べない、interface名.メソッド名 で呼ぶ
+
+よくあるSilverひっかけ変換
+見たら疑う
+obj.staticMethod()
+default 多重実装
+interface static の override
+「どの hello が呼ばれる？」
+
+-----------------------------------------------------
+defaultとstaticの違い
+
+大前提（interface の本来の役割）
+
+interface の本質
+「何ができるか（契約）」を定義するもの
+
+本来は
+void pay();
+void run();
+void save();
+のように 中身を持たないのが基本だった
+では、なぜ default / static が追加されたのか？
+
+背景（重要）
+Java 8 以前：
+interface にメソッドを追加すると、すべての実装クラスがコンパイルエラー
+👉 大規模システムでは致命的
+その対策として「互換性を壊さずに機能を追加する仕組み」
+として default / static が導入された
+
+default メソッドは「いつ使う？」
+実務的な役割
+「ほとんどのクラスで共通になる処理」
+
+例①：共通ロジック
+interface Loggable {
+    default void log(String msg) {
+        System.out.println("[LOG] " + msg);
+    }
+}
+
+9割のクラス → そのまま使う
+特殊なクラス → オーバーライド
+👉 「共通だけど強制はしたくない処理」
+
+例②：後方互換のための追加
+interface Repository {
+    void save();
+
+    default void delete() {
+        // 後から追加
+    }
+}
+
+既存クラスは壊れず、新しい機能を足せる
+👉 これが最大の存在理由
+
+default を使う判断基準（覚え方）
+
+✅ default に向いているのは：
+実装の 共通部分
+あくまで 補助的
+オーバーライドされる前提あり
+
+❌ 向かない：
+クラスごとに処理が全然違う
+状態（フィールド）に強く依存する
+
+static メソッドは「いつ使う？」
+実務的な役割
+「この interface に関係する便利関数」
+
+例①：チェック・変換系
+interface StringUtil {
+    static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+}
+
+implements しなくていい
+名前空間として使う
+👉 StringUtil.isEmpty(str)
+
+例②：生成補助（Factory 的）
+interface Shape {
+    static Shape of(String type) {
+        if(type.equals("circle")) return new Circle();
+        return new Square();
+    }
+}
+👉 「この interface に属する処理」
+
+static を使う判断基準
+✅ static に向いている：
+状態を持たない
+継承・多態性が不要
+共通の道具
+
+❌ 向かない：
+実装クラスごとに振る舞いが変わる
+オーバーライドしたい
+
+default と static の決定的な違い（超重要）
+
+観点    	default      	static
+所属        インスタンス    クラス
+継承される  	○            	×
+override    	○             	×
+呼び方  	インスタンス	interface名
+多態性  	ある            	ない
+目的    	共通実装    	便利関数
+呼び方      obj.method()    Interface.method()
+👉 多態性が必要なら default、不要なら static
+
+Silver試験向け「一撃判断フロー」
+
+問題文を見たらこう考える：
+① 多態性が必要？
+YES → default　NO → static
+② 実装クラスごとに変えたい？
+YES → default　NO → static
+③ インスタンスから呼ぶ？
+YES → default　NO → static
+
+最後に超重要な感覚
+default は「例外」
+static は「道具」
+interface の主役はあくまで 抽象メソッド。
+
+-----------------------------------------------------
+
+なぜ static は多態性に参加できないのか
+
+結論
+static メソッドは「クラスに属する」ものであり、
+オブジェクト（実体）に属さないから、多態性が起きない
+
+まず「多態性」が起きる条件を整理
+
+多態性が起きる条件は
+インスタンスメソッド
+オーバーライドされている
+参照型 ≠ 実体型
+Animal a = new Dog();
+a.sound();   // Dog の sound()
+👉 実体（new Dog）基準で呼ばれる
+
+staticで同じことをやってみても、
+staticはインスタンスから呼べない（クラスから呼べる）
+staticはオーバーライドされない（大元のメソッドを適用）
+
+なぜ？
+static は オーバーライドではなく「隠蔽（hiding）」
+コンパイル時に参照型（Parent）だけを見て呼ぶメソッドが決まる
+👉 実行時の実体は一切関係ない
+
+イメージ
+インスタンスメソッド
+参照型 → 実体 → 実体のメソッド
+static メソッド
+参照型 → クラス → クラスのメソッド
+
+Silver試験での即断ルール、問題でこれが出たら即アウト判定：
+
+❌ static を
+オーバーライドしようとしている
+インスタンスから呼ぼうとしている
+多態性が起きる前提で書いている
+
+static は「型で決まる」
+instance は「実体で決まる」
+
+------------------------------------------------
+Silver試験用まとめ（暗記ライン）
+
+default
+→ 実装クラスに 書かなくても使える
+static
+→ インターフェース名.メソッド() で呼ぶ
+default が複数衝突
+→ クラス側で必ず override
+A.super.method()
+→ 衝突解決専用構文（Silver頻出）
+
+------------------------------------------------
+
+1枚図解（頭の中にこの形を作る）
+┌─────────────┐
+│  interface A │
+│─────────────│
+│ + default f()│  ← 実装あり
+│ + static s() │  ← インターフェース専用
+└─────┬───────┘
+      │ implements
+┌─────▼───────┐
+│   class B    │
+│─────────────│
+│ (f()なし)    │ ← default はそのまま使える
+│              │
+└─────────────┘
+
+default メソッド
+interface A {
+    default void f() {}
+}
+class B implements A {}  ← OK（書かなくていい）
+
+static メソッド（ここが罠）
+interface A {
+    static void s() {}
+}
+A.s();   ← OK
+b.s();   ← NG（インスタンスから呼べない）
+
+多重実装での衝突（最重要）
+interface A { default void f() {} }
+interface B { default void f() {} }
+
+class C implements A, B {
+    // f()を書かないとコンパイルエラー
+    public void f() {
+        A.super.f();
+        B.super.f();
+}
+
+---------------------------------------------------
+
+３行メモ（試験直前に見る用）
+
+default：実装クラスに書かなくても使える／override 可能
+static：インターフェース名.メソッド() でしか呼べない
+default衝突：クラス側で必ず override（A.super.f()）
