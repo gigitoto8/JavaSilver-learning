@@ -14,7 +14,7 @@ public class Main {
 }
 
 /*
-問題②：abstract メソッド未実装
+JavaSilver問題②：abstract メソッド未実装
 Q. コンパイルできる？
 できない。クラスBでhelloメソッドをオーバーライドする必要がある。
 */
