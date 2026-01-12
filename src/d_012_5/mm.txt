@@ -1,0 +1,64 @@
+
+
+overloadでもoverrideでもない = メソッド定義上は無関係
+static ↔ instance の同名・同引数はコンパイルエラー
+hide は static 同士だけ許される
+
+-----------------------
+インスタンスメソッドを static で隠そうとしている」とは？
+結論から
+
+👉 override でも overload でもないが、Javaが禁止している衝突
+
+2つの概念を整理
+① static メソッド
+
+クラスに属する
+
+動的バインディングしない
+
+② インスタンスメソッド
+
+オブジェクトに属する
+
+動的バインディングされる
+
+問題⑦の構造
+class A {
+    void f() {}
+}
+
+class B extends A {
+    static void f() {}
+}
+
+
+A.f() → インスタンスメソッド
+
+B.f() → クラスメソッド
+
+Javaはこれを
+❌ 「隠す（hide）」ことを許可しない
+
+理由：
+
+同じシグネチャなのに
+
+呼び出し規則が違う
+
+バインディング方式が違う
+
+言語仕様的に 曖昧・危険
+
+正しく許される「隠す（hide）」例
+class A {
+    static void f() {}
+}
+
+class B extends A {
+    static void f() {}
+}
+
+
+✔ static → static
+👉 method hiding（隠蔽）

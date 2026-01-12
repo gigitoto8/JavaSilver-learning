@@ -1,0 +1,4 @@
+３行メモ
+引数が同じ → override / 違う → overload
+static / private は override されない
+親メソッドは「消えない」— 継承されて残る
