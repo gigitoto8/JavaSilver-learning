@@ -4,3 +4,9 @@ abstract クラスは new できない
 abstract メソッドは「署名一致」で override 必須
 未実装なら、クラスも abstract
 
+interfaceとの即比較メモ
+項目	interface	abstract class
+多重継承	○	✕
+フィールド	public static final	制限なし
+メソッド	default / static	抽象・具象OK
+new	✕	✕
