@@ -1,0 +1,17 @@
+
+３行メモ（保存版）
+
+catch は必ず「子 → 親」
+throws は処理ではなく「丸投げ宣言」
+multi-catch に親子関係は書けない
+
+Silver 即判定フロー（例外）
+
+チェック例外？
+→ catch or throws 必須
+catch の並び順？
+→ 子が先
+finally？
+→ return より強い
+multi-catch？
+→ 親子NG
