@@ -1,0 +1,69 @@
+
+Java Silver 3大判断軸（これだけ）
+① いつ決まる？（最重要）
+種類	決まるタイミング
+overload	コンパイル時
+フィールド	コンパイル時
+static	コンパイル時
+override	実行時
+
+👉 実行時か？コンパイル時か？
+これを最初に問う。
+
+② 何を見て決める？
+コンパイル時
+
+参照型
+
+実行時
+
+実体型
+
+👉 これだけ。
+
+③ Set / Map は「値」を見ない
+
+Set / Map が見るのは：
+
+hashCode
+
+equals
+
+中身の値は直接見ない
+
+すべてを1枚でまとめると
+【Silver脳】
+まず問う：
+① これはコンパイル時？ 実行時？
+
+コンパイル時 →
+    参照型を見る
+    ・overload
+    ・static
+    ・フィールド
+
+実行時 →
+    実体型を見る
+    ・override
+
+Set / Map →
+    hashCode → equals
+
+超重要な比喩（腹落ち用）
+equals / hashCode
+
+hashCode = 住所（町）
+
+equals = 表札（人）
+
+町が違えば、表札は見に行かれない。
+
+👉 hashCode が違うと equals は呼ばれない
+
+static
+
+static = クラスの関数
+
+インスタンスとは無関係
+
+polymorphism に参加しない

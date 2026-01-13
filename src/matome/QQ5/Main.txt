@@ -1,0 +1,22 @@
+【復習5】最終チェック（Yes / No）
+
+次の文は正しいか？
+
+override 判定は実行時に行われる
+:No　×　→　Yes
+
+どのメソッドを呼ぶか → 実行時
+override ＝ 動的束縛
+
+overload 判定はコンパイル時に行われる
+:Yes
+
+static メソッドは override できる
+:No
+
+equals をオーバーライドしたら hashCode も必ずオーバーライドする
+:Yes
+
+Set は「値」が同じなら必ず重複を許さない
+:Yes　→　No
+equals が true の場合のみ重複とみなす
