@@ -7,7 +7,7 @@ class ii_02_A {
 }
 
 class ii_02_B extends ii_02_A {
-    void hello() {
+    public void hello() {
         System.out.print("B ");
     }
 }
