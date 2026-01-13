@@ -1,0 +1,29 @@
+
+
+３行メモ（完成版）
+
+参照型は制限、実体型が実行
+downcast は実体を見ろ
+instanceof は保険
+
+ポリモーフィズム即判定
+
+メソッド → 実体型
+フィールド / static → 参照型
+downcast：コンパイルOKでも実行時NGあり
+instanceof は実体基準
+
+
+
+---------------------------------
+downcast の正しい考え方（Silver必須）
+A x = new B();   // OK（upcast）
+B b = (B)x;     // OK（実体がB）
+
+A x = new C();
+B b = (B)x;     // NG（実体が違う）
+
+安全な downcast
+if (x instanceof B) {
+    B b = (B)x;
+}
