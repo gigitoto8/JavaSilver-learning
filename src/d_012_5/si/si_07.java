@@ -16,7 +16,10 @@ public class si_07 {
 問題⑦（ラスボス）
 
 Q7
-
 コンパイルできる？:できない
 override / overload / どれでもない？どれでもない
+↓
+インスタンスメソッドを
+static で隠そうとしている
+static ↔ インスタンスは衝突
 */
