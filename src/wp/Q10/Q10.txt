@@ -1,0 +1,10 @@
+【問題10】最終確認（思考プロセス問題）
+
+次のうち
+「実行時に実体型を見るもの」 をすべて選べ。:B,E
+
+A. overload
+B. override
+C. static メソッド
+D. フィールド
+E. instanceof
